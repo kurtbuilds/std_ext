@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "std_ext"
+name = "kurtbuilds_std_ext"
 version = "0.1.0"
