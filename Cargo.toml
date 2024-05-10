@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 description = "Standard library extensions"
+repository = "https://github.com/kurtbuilds/std_ext"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
