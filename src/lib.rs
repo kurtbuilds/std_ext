@@ -5,6 +5,7 @@ mod command_ext;
 
 pub use path_ext::*;
 pub use vec_ext::*;
+pub use command_ext::*;
 
 pub fn default<T: Default>() -> T {
     T::default()
