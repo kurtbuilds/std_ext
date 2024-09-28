@@ -4,8 +4,8 @@ pub trait CommandExt {
 }
 
 pub trait OutputExt {
-    fn stdout(&mut self) -> String;
-    fn stderr(&mut self) -> String;
+    fn stdout(&self) -> &str;
+    fn stderr(&self) -> &str;
 }
 
 impl CommandExt for std::process::Command {
@@ -22,14 +22,12 @@ impl CommandExt for std::process::Command {
 }
 
 impl OutputExt for std::process::Output {
-    fn stdout(&mut self) -> String {
-        let bytes = std::mem::take(&mut self.stdout);
-        String::from_utf8(bytes).expect("Failed to convert stdout to string")
+    fn stdout(&self) -> &str {
+        std::str::from_utf8(&self.stdout).expect("Failed to convert stdout to str")
     }
 
-    fn stderr(&mut self) -> String {
-        let bytes = std::mem::take(&mut self.stderr);
-        String::from_utf8(bytes).expect("Failed to convert stdout to string")
+    fn stderr(&self) -> &str {
+        std::str::from_utf8(&self.stderr).expect("Failed to convert stderr to str")
     }
 }
 
