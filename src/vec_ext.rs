@@ -29,6 +29,24 @@ impl<T> DerefVec<T> for Vec<T> where T: Deref + PartialEq<T::Target> {
     }
 }
 
+#[macro_export]
+macro_rules! vec_into {
+    ($(($($item:expr),*)),* $(,)?) => {
+        {
+            let mut v = Vec::new();
+            $(v.push(($($item.into()),*));)*
+            v
+        }
+    };
+    ($($item:expr),* $(,)?) => {
+        {
+            let mut v = Vec::new();
+            $(v.push($item.into());)*
+            v
+        }
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -39,3 +57,4 @@ mod tests {
         assert!(s.includes("a"));
     }
 }
+

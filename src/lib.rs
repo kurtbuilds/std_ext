@@ -1,11 +1,14 @@
-mod path_ext;
+mod path;
 mod vec_ext;
 pub mod path2;
-mod command_ext;
+mod command;
+mod option;
+mod map;
 
-pub use path_ext::*;
+pub use path::*;
 pub use vec_ext::*;
-pub use command_ext::*;
+pub use command::*;
+pub use option::*;
 
 pub fn default<T: Default>() -> T {
     T::default()
