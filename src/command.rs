@@ -28,7 +28,10 @@ impl CommandExt for std::process::Command {
         } else {
             Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                format!("Command exited with code: {}", output.status.code().unwrap()),
+                format!(
+                    "Command exited with code: {}",
+                    output.status.code().unwrap()
+                ),
             ))
         }
     }
@@ -53,19 +56,15 @@ mod tests {
 
     #[test]
     fn test_output() -> std::io::Result<()> {
-        let s = std::process::Command::new("echo")
-            .arg("hello")
-            .output()?
-            .stdout();
+        let output = std::process::Command::new("echo").arg("hello").output()?;
+        let s = output.stdout();
         assert_eq!(s, "hello\n");
         Ok(())
     }
 
     #[test]
     fn test_run() -> std::io::Result<()> {
-        std::process::Command::new("echo")
-            .arg("hello")
-            .run()?;
+        std::process::Command::new("echo").arg("hello").run()?;
         Ok(())
     }
 }

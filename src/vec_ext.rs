@@ -5,9 +5,14 @@ pub trait VecExt<T> {
     fn fold<F, U>(&self, f: F, init: U) -> U
     where
         F: Fn(U, &T) -> U;
+    fn into_first(self) -> Option<T>;
+    fn into_last(self) -> Option<T>;
 }
 
-pub trait DerefVec<T> where T: Deref {
+pub trait DerefVec<T>
+where
+    T: Deref,
+{
     fn includes(&self, item: &T::Target) -> bool;
 }
 
@@ -16,14 +21,29 @@ impl<T> VecExt<T> for Vec<T> {
         self.iter().any(f)
     }
 
-    fn fold<F, U>(&self, f: F, init: U) -> U where F: Fn(U, &T) -> U {
+    fn fold<F, U>(&self, f: F, init: U) -> U
+    where
+        F: Fn(U, &T) -> U,
+    {
         self.iter().fold(init, f)
     }
 
+    fn into_first(self) -> Option<T> {
+        self.into_iter().next()
+    }
 
+    fn into_last(mut self) -> Option<T> {
+        if self.is_empty() {
+            return None;
+        }
+        Some(self.remove(self.len() - 1))
+    }
 }
 
-impl<T> DerefVec<T> for Vec<T> where T: Deref + PartialEq<T::Target> {
+impl<T> DerefVec<T> for Vec<T>
+where
+    T: Deref + PartialEq<T::Target>,
+{
     fn includes(&self, item: &T::Target) -> bool {
         self.iter().any(|i| i == item)
     }
@@ -57,4 +77,3 @@ mod tests {
         assert!(s.includes("a"));
     }
 }
-
