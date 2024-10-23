@@ -76,4 +76,10 @@ mod tests {
         let s = vec!["a".to_string(), "b".to_string()];
         assert!(s.includes("a"));
     }
+
+    #[test]
+    fn test_vec_into() {
+        let s: Vec<String> = vec_into!["a", "b"];
+        assert_eq!(s, vec!["a".to_string(), "b".to_string()]);
+    }
 }
