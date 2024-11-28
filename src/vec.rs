@@ -7,6 +7,7 @@ pub trait VecExt<T> {
         F: Fn(U, &T) -> U;
     fn into_first(self) -> Option<T>;
     fn into_last(self) -> Option<T>;
+    fn recollect<U: From<T>>(self) -> Vec<U>;
 }
 
 pub trait DerefVec<T>
@@ -37,6 +38,9 @@ impl<T> VecExt<T> for Vec<T> {
             return None;
         }
         Some(self.remove(self.len() - 1))
+    }
+    fn recollect<U: From<T>>(self) -> Vec<U> {
+        self.into_iter().map(Into::into).collect()
     }
 }
 
