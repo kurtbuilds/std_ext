@@ -8,6 +8,12 @@ pub trait VecExt<T> {
     fn into_first(self) -> Option<T>;
     fn into_last(self) -> Option<T>;
     fn recollect<U: From<T>>(self) -> Vec<U>;
+    fn merge_grouped<U>(
+        &mut self,
+        children: Vec<U>,
+        matcher: impl Fn(&T, &U) -> bool,
+        merger: impl Fn(&mut T, U),
+    );
 }
 
 pub trait DerefVec<T>
@@ -41,6 +47,22 @@ impl<T> VecExt<T> for Vec<T> {
     }
     fn recollect<U: From<T>>(self) -> Vec<U> {
         self.into_iter().map(Into::into).collect()
+    }
+
+    fn merge_grouped<U>(
+        &mut self,
+        children: Vec<U>,
+        matcher: impl Fn(&T, &U) -> bool,
+        merger: impl Fn(&mut T, U),
+    ) {
+        let mut it = self.iter_mut().peekable();
+        for child in children {
+            while !matcher(it.peek().unwrap(), &child) {
+                it.next();
+            }
+            let current = it.peek_mut().unwrap();
+            merger(current, child);
+        }
     }
 }
 
