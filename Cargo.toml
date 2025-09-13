@@ -1,6 +1,6 @@
 [package]
 name = "kurtbuilds_std_ext"
-version = "0.1.12"
+version = "0.1.13"
 edition = "2021"
 license = "MIT"
 description = "Standard library extensions"
